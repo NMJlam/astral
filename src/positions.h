@@ -29,10 +29,12 @@ private:
   Bitboard pieceBB[LEN_PIECES] = {};
   ColourType sideToMove;
   uint8_t castlingRights{};
+  Square enPassant;
 
   void parse_positions(std::stringstream &ss);
   void parse_stm(std::stringstream &ss);
   void parse_castling(std::stringstream &ss);
+  void parse_ep(std::stringstream &ss);
 
 public:
   Bitboard pieces();

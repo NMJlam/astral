@@ -1,5 +1,6 @@
 #include "positions.h"
 #include "types.h"
+#include <algorithm>
 #include <array>
 #include <cctype>
 #include <ios>
@@ -139,6 +140,35 @@ void Positions::parse_castling(std::stringstream &ss) {
     }
   }
 }
+
+void Positions::parse_ep(std::stringstream &ss) {
+  unsigned char ep{};
+  if (!(ss >> ep)) {
+    throw PositionSetError("Invalid FEN. Unexpected end of stream.");
+  }
+
+  if (ep == '-') {
+    enPassant = SQ_NONE;
+  } else if (isalpha(ep)) {
+    unsigned char rank_char{};
+    if (!(ss >> rank_char)) {
+      throw PositionSetError("Invalid FEN. En-passant square has no rank.");
+    }
+
+    int rank{rank_char - '1'};
+    int file{ep - 'a'};
+
+    if (file != std::clamp(file, 0, 7) || rank != std::clamp(rank, 0, 7)) {
+      throw PositionSetError("Invalid FEN. Algebraic notation out of range.");
+    }
+
+    enPassant = make_square(File(file), Rank(rank));
+  } else {
+    throw PositionSetError("Invalid FEN. Algebraic notation out of range.");
+  }
+
+  ss.ignore(1);
+}
 // public
 Bitboard Positions::pieces() { return Positions::pieceBB[ALL_PIECES]; }
 
@@ -157,4 +187,5 @@ void Positions::set(const std::string &fen_exp) {
   parse_positions(ss);
   parse_stm(ss);
   parse_castling(ss);
+  parse_ep(ss);
 }
