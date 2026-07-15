@@ -108,6 +108,37 @@ void Positions::parse_stm(std::stringstream &ss) {
   // ignore the following space
   ss.ignore(1);
 }
+void Positions::parse_castling(std::stringstream &ss) {
+  for (;;) {
+    unsigned char token;
+    if (!(ss >> token)) {
+      throw PositionSetError("Invalid FEN. Unexpected end of stream.");
+    }
+
+    if (isspace(token)) {
+      break;
+    }
+
+    switch (token) {
+    case 'K':
+      castlingRights |= WHITE_OO;
+      break;
+    case 'Q':
+      castlingRights |= WHITE_OOO;
+      break;
+    case 'k':
+      castlingRights |= BLACK_OO;
+      break;
+    case 'q':
+      castlingRights |= BLACK_OOO;
+      break;
+    case '-':
+      break;
+    default:
+      throw PositionSetError("Invalid FEN. Bad castling token");
+    }
+  }
+}
 // public
 Bitboard Positions::pieces() { return Positions::pieceBB[ALL_PIECES]; }
 
@@ -122,7 +153,8 @@ Bitboard Positions::pieces(ColourType ct, PieceType pt) {
 void Positions::set(const std::string &fen_exp) {
   std::stringstream ss(fen_exp);
   ss >> std::noskipws;
+
   parse_positions(ss);
-  // NOTE: parsing of the additional flags might be needed later.
   parse_stm(ss);
+  parse_castling(ss);
 }

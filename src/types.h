@@ -48,5 +48,12 @@ constexpr Square make_square(File file, Rank rank) {
   int idx = file + rank * 8;
   return Square(idx);
 }
+enum CastlingRights: uint8_t {
+  NO_CASTLING,
+  WHITE_OO,
+  WHITE_OOO = WHITE_OO << 1,
+  BLACK_OO = WHITE_OO << 2,
+  BLACK_OOO = WHITE_OO << 3,
+};
 constexpr Bitboard square_bb(Square s) { return 1ULL << static_cast<int>(s); }
 constexpr void set_bit(Bitboard &b, Square s) { b |= square_bb(s); }
