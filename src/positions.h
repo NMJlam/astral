@@ -30,11 +30,14 @@ private:
   ColourType sideToMove;
   uint8_t castlingRights{};
   Square enPassant;
+  int halfmoveClock{};
+  int fullmoveNumber{};
 
   void parse_positions(std::stringstream &ss);
   void parse_stm(std::stringstream &ss);
   void parse_castling(std::stringstream &ss);
   void parse_ep(std::stringstream &ss);
+  int parse_moves(std::stringstream &ss);
 
 public:
   Bitboard pieces();

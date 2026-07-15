@@ -169,6 +169,40 @@ void Positions::parse_ep(std::stringstream &ss) {
 
   ss.ignore(1);
 }
+
+int Positions::parse_moves(std::stringstream &ss) {
+  int num{};
+
+  unsigned char first_tok;
+  if (!(ss >> first_tok)) {
+    throw PositionSetError("Invalid FEN. Unexpected end of stream.");
+  }
+
+  if (std::isdigit(first_tok)) {
+    num = num * 10 + (first_tok - '0');
+  } else {
+    throw PositionSetError("Invalid FEN. Invalid move counter.");
+  }
+
+  for (;;) {
+    unsigned char tok;
+    if (!(ss >> tok)) {
+      break;
+    }
+
+    if (isspace(tok)) {
+      break;
+    }
+
+    if (std::isdigit(tok)) {
+      num = num * 10 + (tok - '0');
+    } else {
+      throw PositionSetError("Invalid FEN. Bad move-counter character.");
+    }
+  }
+
+  return num;
+}
 // public
 Bitboard Positions::pieces() { return Positions::pieceBB[ALL_PIECES]; }
 
@@ -188,4 +222,8 @@ void Positions::set(const std::string &fen_exp) {
   parse_stm(ss);
   parse_castling(ss);
   parse_ep(ss);
+
+  // parsing half and full moves
+  halfmoveClock = parse_moves(ss);
+  fullmoveNumber = parse_moves(ss);
 }
