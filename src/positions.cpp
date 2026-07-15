@@ -85,6 +85,20 @@ void Positions::parse_positions(std::stringstream &ss) {
   }
 };
 
+void Positions::parse_stm(std::stringstream &ss) {
+  // parsing the sideToMove
+  char stm;
+  if (!(ss >> stm)) {
+    throw PositionSetError("Invalid FEN. Unexpected end of stream.");
+  }
+  if (stm != 'w' && stm != 'b') {
+    throw PositionSetError("Invalid FEN. Unknown side to move.");
+  }
+  sideToMove = (stm == 'w') ? WHITE : BLACK;
+
+  // ignore the following space
+  ss.ignore(1);
+}
 // public
 Bitboard Positions::pieces() { return Positions::pieceBB[ALL_PIECES]; }
 
@@ -98,6 +112,8 @@ Bitboard Positions::pieces(ColourType ct, PieceType pt) {
 
 void Positions::set(const std::string &fen_exp) {
   std::stringstream ss(fen_exp);
+  ss >> std::noskipws;
   parse_positions(ss);
   // NOTE: parsing of the additional flags might be needed later.
+  parse_stm(ss);
 }

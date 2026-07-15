@@ -28,7 +28,9 @@ class Positions {
 private:
   Bitboard colourBB[LEN_COLOURS] = {};
   Bitboard pieceBB[LEN_PIECES] = {};
+  ColourType sideToMove;
   void parse_positions(std::stringstream &ss);
+  void parse_stm(std::stringstream &ss);
 
 public:
   Bitboard pieces();
