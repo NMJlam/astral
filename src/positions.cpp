@@ -40,6 +40,7 @@ void Positions::parse_positions(std::stringstream &ss) {
   int file = FILE_A;
   int rank = RANK_8;
 
+  // parse the board positions
   for (;;) {
     unsigned char token;
 
@@ -76,6 +77,9 @@ void Positions::parse_positions(std::stringstream &ss) {
       if (valid_pieces.find(token) == std::string_view::npos) {
         throw PositionSetError("Invalid FEN. Unknown piece character.");
       }
+      if (file >= FILE_NB || rank < RANK_1) {
+        throw PositionSetError("Invalid FEN. Piece out of bounds.");
+      }
       const auto [pt, ct] = PIECE_LOOKUP[token];
       const Square sq = make_square(File(file), Rank(rank));
       set_bit(pieceBB[ALL_PIECES], sq);
@@ -83,6 +87,10 @@ void Positions::parse_positions(std::stringstream &ss) {
       set_bit(colourBB[ct], sq);
       ++file;
     }
+  }
+
+  if (rank != RANK_1 || file != FILE_NB) {
+    throw PositionSetError("Invalid FEN. File and rank is not an 8x8 board.");
   }
 };
 
