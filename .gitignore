@@ -1,3 +1,6 @@
+# Claude
+.claude/
+
 # Build
 build/
 out/
@@ -29,3 +32,18 @@ CMakeUserPresets.json
 # Executables
 astral
 *.out
+
+# Obsidian — per-workspace state & cache
+docs/.obsidian/workspace.json
+docs/.obsidian/workspace-mobile.json
+docs/.obsidian/graph.json
+docs/.obsidian/cache
+.trash/
+
+# Obsidian — plugin runtime data (may hold API keys) & bundled binaries
+docs/.obsidian/plugins/*/data.json
+docs/.obsidian/plugins/*/main.js
+
+# …except the Excalidraw plugin binary, so it's installed for users on clone.
+# data.json stays ignored: it's per-user plugin settings and can hold API keys.
+!docs/.obsidian/plugins/obsidian-excalidraw-plugin/main.js
