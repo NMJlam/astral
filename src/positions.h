@@ -1,10 +1,9 @@
 #pragma once
 
+#include "types.h"
 #include <cstdint>
 #include <sstream>
 #include <string>
-
-using Bitboard = uint64_t;
 
 struct PositionSetError : std::runtime_error {
   using std::runtime_error::runtime_error;

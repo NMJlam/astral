@@ -1,5 +1,6 @@
 #include "positions.h"
 #include "types.h"
+#include <array>
 #include <cctype>
 #include <ios>
 #include <iostream>
@@ -76,10 +77,10 @@ void Positions::parse_positions(std::stringstream &ss) {
         throw PositionSetError("Invalid FEN. Unknown piece character.");
       }
       const auto [pt, ct] = PIECE_LOOKUP[token];
-      Bitboard pos = 1ULL << (rank * 8 + file);
-      pieceBB[ALL_PIECES] |= pos;
-      pieceBB[pt] |= pos;
-      colourBB[ct] |= pos;
+      const Square sq = make_square(File(file), Rank(rank));
+      set_bit(pieceBB[ALL_PIECES], sq);
+      set_bit(pieceBB[pt], sq);
+      set_bit(colourBB[ct], sq);
       ++file;
     }
   }
