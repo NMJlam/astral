@@ -12,12 +12,24 @@ struct PieceInfo {
   ColourType ct;
 };
 
-constexpr PieceInfo PIECE_LOOKUP[128] = {
-    ['P'] = {PAWN, WHITE}, ['N'] = {KNIGHT, WHITE}, ['B'] = {BISHOP, WHITE},
-    ['R'] = {ROOK, WHITE}, ['Q'] = {QUEEN, WHITE},  ['K'] = {KING, WHITE},
-    ['p'] = {PAWN, BLACK}, ['n'] = {KNIGHT, BLACK}, ['b'] = {BISHOP, BLACK},
-    ['r'] = {ROOK, BLACK}, ['q'] = {QUEEN, BLACK},  ['k'] = {KING, BLACK},
-};
+constexpr std::array<PieceInfo, 128> makePieceLookup() {
+  std::array<PieceInfo, 128> t{};
+  t['P'] = {PAWN, WHITE};
+  t['N'] = {KNIGHT, WHITE};
+  t['B'] = {BISHOP, WHITE};
+  t['R'] = {ROOK, WHITE};
+  t['Q'] = {QUEEN, WHITE};
+  t['K'] = {KING, WHITE};
+  t['p'] = {PAWN, BLACK};
+  t['n'] = {KNIGHT, BLACK};
+  t['b'] = {BISHOP, BLACK};
+  t['r'] = {ROOK, BLACK};
+  t['q'] = {QUEEN, BLACK};
+  t['k'] = {KING, BLACK};
+  return t;
+}
+
+constexpr auto PIECE_LOOKUP = makePieceLookup();
 
 // private
 void Positions::parse_positions(std::stringstream &ss) {
