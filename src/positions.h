@@ -15,8 +15,8 @@ enum PieceType {
   KNIGHT,
   BISHOP,
   ROOK,
-  KING,
   QUEEN,
+  KING,
   LEN_PIECES
 };
 
