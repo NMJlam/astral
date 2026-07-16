@@ -20,7 +20,7 @@ enum PieceType {
   LEN_PIECES
 };
 
-enum ColourType { BLACK, WHITE, LEN_COLOURS };
+enum ColourType { WHITE, BLACK, LEN_COLOURS };
 
 class Positions {
 
