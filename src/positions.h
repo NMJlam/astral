@@ -27,9 +27,9 @@ class Positions {
 private:
   Bitboard colourBB[LEN_COLOURS] = {};
   Bitboard pieceBB[LEN_PIECES] = {};
-  ColourType sideToMove;
+  ColourType sideToMove{};
   uint8_t castlingRights{};
-  Square enPassant;
+  Square enPassant{SQ_NONE};
   int halfmoveClock{};
   int fullmoveNumber{};
 
