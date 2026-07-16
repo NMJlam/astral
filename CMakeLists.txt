@@ -16,3 +16,5 @@ add_executable(astral
 )
 
 target_include_directories(astral PRIVATE src)
+
+target_compile_options(astral PRIVATE -Wall -Wextra -Wpedantic)
