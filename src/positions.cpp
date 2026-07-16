@@ -215,6 +215,10 @@ Bitboard Positions::pieces(ColourType ct, PieceType pt) {
 }
 
 void Positions::set(const std::string &fen_exp) {
+  // Reset to a clean state so re-parsing into a used object doesn't OR bits
+  // into stale bitboards or keep stale castling/move-counter state.
+  *this = Positions{};
+
   std::stringstream ss(fen_exp);
   ss >> std::noskipws;
 
